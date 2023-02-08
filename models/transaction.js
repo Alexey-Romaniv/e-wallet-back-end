@@ -7,6 +7,10 @@ const types = ["+", "-"];
 
 const transactionSchema = new Schema(
   {
+    date: {
+      type: Date,
+      required: true,
+    },
     type: {
       type: String,
       enum: types,
@@ -32,6 +36,7 @@ const transactionSchema = new Schema(
 transactionSchema.post("save", handleMongooseError);
 
 const addSchema = Joi.object({
+  date: Joi.date().required(),
   type: Joi.string()
     .valid(...types)
     .required(),
