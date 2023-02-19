@@ -4,8 +4,8 @@ const { ctrlWrapper, HttpError } = require("../helpers");
 
 const getAll = async (req, res) => {
   const { _id: owner } = req.user;
-  const result = await Transaction.find({ owner }).populate("owner");
-  res.json(result);
+  const result = await Transaction.find({ owner }).populate("owner", "email");
+  res.json({data: result});
 };
 
 const add = async (req, res) => {
@@ -16,12 +16,15 @@ const add = async (req, res) => {
     newWallet = Number(wallet) + Number(sum);
   }
   if (type === "-") {
-    console.log("minus");
     newWallet = Number(wallet) - Number(sum);
   }
   await User.findByIdAndUpdate(owner, { wallet: newWallet });
-  const create = await Transaction.create({ ...req.body, owner });
-  const result = { create, newWallet };
+  const transaction = await Transaction.create({
+    ...req.body,
+    owner,
+    wallet: newWallet,
+  });
+  const result = { data: { ...transaction } };
   res.status(201).json(result);
 };
 
@@ -34,7 +37,7 @@ const removeById = async (req, res) => {
     throw HttpError(404);
   }
   const { sum, type } = transaction;
-
+  const newWallet = wallet;
   if (type !== "+") {
     newWallet = Number(wallet) + Number(sum);
   }
@@ -47,7 +50,6 @@ const removeById = async (req, res) => {
 
   res.json({
     message: "Transaction delete",
-    sum,
     wallet: newWallet,
   });
 };

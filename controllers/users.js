@@ -14,7 +14,7 @@ const secret = process.env.SECRET_KEY;
 const baseUrl = process.env.BASE_URL;
 
 const register = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, name } = req.body;
   const user = await User.findOne({ email });
 
   if (user) {
@@ -42,9 +42,11 @@ const register = async (req, res) => {
   await User.findByIdAndUpdate(id, { token });
 
   res.status(201).json({
-    token,
-    user: {
-      email: newUser.email,
+    data: {
+      token,
+      name,
+      email,
+      avatarURL,
     },
   });
 };
@@ -67,8 +69,11 @@ const login = async (req, res) => {
   await User.findByIdAndUpdate(id, { token });
 
   res.status(201).json({
-    token,
-    user: user.email,
+    data: {
+      token,
+      name: user.name,
+      email,
+    },
   });
 };
 

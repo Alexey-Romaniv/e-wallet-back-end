@@ -14,6 +14,10 @@ const userSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
+    name: {
+      type: String,
+      required: true,
+    },
     avatarURL: String,
     token: String,
     verify: {
@@ -38,6 +42,7 @@ userSchema.post("save", handleMongooseError);
 const schema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
+  name: Joi.string().required(),
 });
 
 const verifyEmailSchema = Joi.object({
