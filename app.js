@@ -14,8 +14,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-app.use("/api/users", userRouter);
-app.use("/api/transactions", transactionRouter);
+app.use("/users", userRouter);
+app.use("/transactions", transactionRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
