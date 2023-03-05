@@ -47,6 +47,7 @@ const register = async (req, res) => {
             name,
             email,
             avatarURL,
+            wallet: user.wallet
         },
     });
 };
@@ -74,6 +75,7 @@ const login = async (req, res) => {
             name: user.name,
             email,
             avatarURL: user.avatarURL,
+            wallet: user.wallet,
         },
     });
 };
@@ -85,9 +87,15 @@ const logout = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-    const {email, wallet, avatarURL, token} = req.user;
+    const {name,email, wallet, avatarURL, token} = req.user;
     res.json({
-        email, wallet, avatarURL, token
+        token,
+        user: {
+            name,
+            email,
+            wallet,
+            avatarURL,
+        }
     });
 };
 
