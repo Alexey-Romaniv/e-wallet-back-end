@@ -43,10 +43,11 @@ const register = async (req, res) => {
 
     res.status(201).json({
         token,
-        name,
-        email,
-        avatarURL,
-
+        user: {
+            name,
+            email,
+            avatarURL,
+        },
     });
 };
 
@@ -68,10 +69,11 @@ const login = async (req, res) => {
     await User.findByIdAndUpdate(id, {token});
 
     res.status(201).json({
-            token,
+        token,
+        user:{
             name: user.name,
             email,
-
+        }
     });
 };
 
