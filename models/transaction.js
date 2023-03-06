@@ -18,7 +18,6 @@ const transactionSchema = new Schema(
     },
     category: {
       type: String,
-      required: true,
     },
     comment: { type: String },
     sum: {
@@ -30,7 +29,7 @@ const transactionSchema = new Schema(
       ref: "user",
     },
   },
-  { versionKey: false, timestamps: true }
+  { versionKey: false, timestamps: false }
 );
 
 transactionSchema.post("save", handleMongooseError);
@@ -40,10 +39,11 @@ const addSchema = Joi.object({
   type: Joi.string()
     .valid(...types)
     .required(),
-  category: Joi.string().required(),
+  category: Joi.string(),
   comment: Joi.string(),
   sum: Joi.number().required(),
 });
+
 const Transaction = model("transaction", transactionSchema);
 module.exports = {
   Transaction,
