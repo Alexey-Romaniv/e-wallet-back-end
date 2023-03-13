@@ -29,12 +29,11 @@ const register = async (req, res) => {
         password: hashPassword,
         avatarURL,
         verificationToken,
-        wallet: 0,
     });
     const verifyEmail = {
         to: email,
         subject: "Verify your email",
-        html: `<a target="_blank" href="${baseUrl}/api/users/verify/${verificationToken}">Click to verify email</a>`,
+        html: `<a target="_blank" href="${baseUrl}/users/verify/${verificationToken}">Click to verify email</a>`,
     };
     await sendEmail(verifyEmail);
 
@@ -42,13 +41,14 @@ const register = async (req, res) => {
     const token = jwt.sign({id}, secret, {expiresIn: "23h"});
     await User.findByIdAndUpdate(id, {token});
 
+    console.log(newUser.wallet)
     res.status(201).json({
         token,
         user: {
             name,
             email,
             avatarURL,
-            wallet: user.wallet
+            wallet: newUser.wallet
         },
     });
 };
