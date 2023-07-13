@@ -19,7 +19,10 @@ const transactionSchema = new Schema(
         category: {
             type: String,
         },
-        comment: {type: String},
+        comment: {
+            type: String,
+            required: false,
+        },
         sum: {
             type: Number,
             required: true,
@@ -44,7 +47,7 @@ const addSchema = Joi.object({
         .valid(...types)
         .required(),
     category: Joi.string(),
-    comment: Joi.string(),
+    comment: Joi.string().allow('').optional(),
     sum: Joi.number().required(),
 });
 

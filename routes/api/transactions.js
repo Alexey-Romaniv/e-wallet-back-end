@@ -7,6 +7,7 @@ const { validateBody, authenticate } = require("../../middlewares");
 const { addSchema } = require("../../models/transaction");
 
 router.get("/", authenticate, ctrl.getAll);
+router.get("/filtered", authenticate, ctrl.getFilteredTransactions);
 router.post("/", authenticate, validateBody(addSchema), ctrl.add);
 router.delete("/:transactionId", authenticate, ctrl.removeById);
 module.exports = router;

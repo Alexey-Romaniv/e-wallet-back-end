@@ -88,15 +88,15 @@ const logout = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-    const {name,email, wallet, avatarURL, token} = req.user;
+    const {name,email, wallet, avatarURL,} = req.user;
+
+
+
     res.json({
-        token,
-        user: {
             name,
             email,
             wallet,
             avatarURL,
-        }
     });
 };
 
