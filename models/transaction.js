@@ -36,7 +36,7 @@ const transactionSchema = new Schema(
             ref: "user",
         },
     },
-    {versionKey: false, timestamps: false}
+    {versionKey: false, timestamps: true}
 );
 
 transactionSchema.post("save", handleMongooseError);
