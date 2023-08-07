@@ -67,12 +67,21 @@ const add = async (req, res) => {
     if (type === "-") {
         newWallet = Number(wallet) - Number(sum);
     }
-    await User.findByIdAndUpdate(owner, {wallet: newWallet});
     const transaction = await Transaction.create({
         ...req.body,
         owner,
         wallet: newWallet,
     });
+
+    // Обновляем баланс пользователя
+    await User.findByIdAndUpdate(owner, {wallet: newWallet});
+
+    // Получаем текущий список транзакций пользователя
+    const userTransactions = await Transaction.find({ owner }).sort({ createdAt: -1 });
+
+    // Добавляем новую транзакцию в начало списка
+    userTransactions.unshift(transaction);
+
     res.status(201).json(transaction);
 };
 
